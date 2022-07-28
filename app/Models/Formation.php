@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\Module;
+use App\Models\Role;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Formation extends Model
+{
+    use HasFactory;
+
+    public function modules ()
+    {
+        return $this->hasMany(Module::class);
+    }
+
+    public function hasAnyRole(array $roles)
+    {
+        return $this->roles()->whereIn('name', $roles)->first();
+    }
+}
