@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Formation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 
 class FormationController extends Controller
 {
@@ -19,8 +20,10 @@ class FormationController extends Controller
     public function index()
     {
         $formations = Formation::all();
-        return view ('admin.pages.formations',[
-            'formations' => $formations
+        $nbreFormations = Formation::all()->count();
+        return view ('admin.formations.liste-formations',[
+            'formations' => $formations,
+            'nbreFormations' => $nbreFormations
         ]);
     }
 
@@ -31,7 +34,7 @@ class FormationController extends Controller
      */
     public function create()
     {
-        //
+        return view ('admin.formations.create-formation');
     }
 
     /**
@@ -42,7 +45,15 @@ class FormationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate ([
+            'name' => ['required', 'string', 'max:255']
+        ]);
+
+        Formation::create([
+            'name' => $request->name
+        ]);
+
+        return redirect()->route('admin.formations.index');
     }
 
     /**
@@ -53,7 +64,10 @@ class FormationController extends Controller
      */
     public function show($id)
     {
-        //
+        $formation = Formation::find($id);
+        return view('admin.formations.detail-formation',[
+            'formation' => $formation
+        ]);
     }
 
     /**
@@ -64,8 +78,8 @@ class FormationController extends Controller
      */
     public function edit($id)
     {
-        dd($formation);
-        return view('admin.pages.edit',[
+        $formation = Formation::find($id);
+        return view('admin.formations.edit-formation',[
             'formation' => $formation
         ]);
     }
@@ -77,24 +91,32 @@ class FormationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Formation $formation)
+    public function update(Request $request, $id)
+
     {
-        $formation->modules()->sync($request->roles);
+        $formation = Formation::find($id);
         $formation->name = $request->name;
         $formation->save();
 
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('admin.formations.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \App\Models\Formation  $formation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Formation $formation)
+    public function destroy($id)
     {
+        if( Gate::denies('delete')){
+            return redirect()->route('admin.formations.index');
+        }
+        //$formation->modules()->detach();
+        $formation = Formation::find($id);
+        //dd($formation);
         $formation->delete();
 
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('admin.formations.index');
     }
 }

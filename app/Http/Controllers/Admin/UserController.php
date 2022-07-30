@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Formation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
@@ -23,12 +22,10 @@ class UserController extends Controller
     {
         $users = User::all();
         $nbreUsers = User::all()->count();
-        $nbreFormations = Formation::all()->count();
 
-        return view('admin.users.liste',[
+        return view('admin.users.liste-users',[
             'nbreUsers' => $nbreUsers,
-            'users' => $users,
-            'nbreFormations' => $nbreFormations
+            'users' => $users
         ]);
     }
 
@@ -39,7 +36,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::all();
+        return view('admin.users.create-user',[
+            'roles' => $roles
+        ]);
     }
 
     /**
@@ -50,7 +50,23 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate ([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password_confirmation' => ['required','same:password']
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password
+        ]);
+        $user->roles()->sync($request->roles);
+        $user->save();
+
+        return redirect()->route('admin.users.index')
+                            ->with('success','User created successfully');
     }
 
     /**
@@ -77,7 +93,7 @@ class UserController extends Controller
         }
 
         $roles = Role::all();
-        return view('admin.users.edit',[
+        return view('admin.users.edit-user',[
             'user' => $user,
             'roles' => $roles
         ]);
@@ -108,7 +124,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if( Gate::denies('delete-user')){
+        if( Gate::denies('delete')){
             return redirect()->route('admin.users.index');
         }
 

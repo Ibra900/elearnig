@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Formation extends Model
 {
+    protected $fillable = [ 'name' ];
     use HasFactory;
 
     public function modules ()

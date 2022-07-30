@@ -41,9 +41,17 @@ Auth::routes();
 Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users')->group(function () {
     Route::resource('users', 'UserController');
 });
-
 Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->group(function () {
-    Route::resource('pages', 'FormationController');
+    Route::resource('formations', 'FormationController');
+});
+Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('modules', 'ModuleController');
+});
+Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('chapitres', 'ChapitreController');
+});
+Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('lecons', 'LeconController');
 });
 
 

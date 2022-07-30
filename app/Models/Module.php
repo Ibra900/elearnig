@@ -11,6 +11,8 @@ class Module extends Model
 {
     use HasFactory;
 
+    protected $fillable = [ 'name', 'formation_id' ];
+
     public function formation ()
     {
         return $this->hasOne(Formation::class);

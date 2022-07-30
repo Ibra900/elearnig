@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Lecon extends Model
 {
     use HasFactory;
+
+    protected $fillable = [ 'name', 'chapitre_id', 'content' ];
+
     public function chapitre ()
     {
         return $this->hasOne(Chapitre::class);

@@ -11,6 +11,8 @@ class Chapitre extends Model
 {
     use HasFactory;
 
+    protected $fillable = [ 'name', 'module_id'];
+
     public function module ()
     {
         return $this->hasOne(Module::class);
