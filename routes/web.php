@@ -24,11 +24,6 @@ use App\Http\Controllers\Admin\DashboardController;
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::get('about', function () { return view('about'); })->name('about');
-Route::get('courses', function () { return view('courses'); })->name('courses');
-Route::get('elements', function () { return view('elements'); })->name('elements');
-Route::get('course-details', function () { return view('course-details'); })->name('course-details');
-Route::get('blog-home', function () { return view('blog-home'); })->name('blog-home');
-Route::get('blog-single', function () { return view('blog-single'); })->name('blog-single');
 Route::get('contact', function () { return view('contact'); })->name('contact');
 
 Route::get('formations', [FormationController::class, 'index'])->name('formations');
