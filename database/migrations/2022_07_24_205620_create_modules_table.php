@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('name', 120);
             $table->foreignId('formation_id')->contrained()->onDelete('cascade');
-
             $table->timestamps();
         });
+
     }
 
     /**

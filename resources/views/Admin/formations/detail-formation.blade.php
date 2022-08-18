@@ -7,7 +7,6 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">{{ __('DETAIL FORMATION : ') }}</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -20,26 +19,26 @@
         </div><!-- /.container-fluid -->
     </div>
     <section class="content">
-        <h2 class="m-0"> Titre : {{ $formation->name }}</h2><hr>
+
         <div class="container">
-            <div>
-                @foreach($formation->modules as $module)
-                    <div>
-                        <h3>Module : {{ $module->name}}</h3>
-                        <div>
-                            @foreach($module->chapitres as $chapitre)
-                                <div>
-                                    <h4> Chapitre : {{ $chapitre->name}}</h4>
-                                    <div>
-                                        @foreach($chapitre->lecons as $lecon)
-                                            <h5>Leçon {{ $lecon->name}}</h5>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+            <div class="card mb-3">
+                <img src="{{ Storage::url($formation->Image->path) }}" width="70px" heigth="50px" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h1 class="card-title"><b>{{ __('FORMATION : ')  }} {{ $formation->name }}</b></h1><br>
+                    @foreach($formation->modules as $module)
+                        <p class="card-text">{{ __('MODULE : ')  }} <b>{{ $module->name}}</b></p>
+                        @foreach($module->chapitres as $chapitre)
+                            <ul>
+                                <li>{{ __('Chapitre : ')  }} <b>{{ $chapitre->name }}</b></li>
+                                @foreach($chapitre->lecons as $lecon)
+                                    <ul>
+                                        <li>{{ $lecon->name }}</li>
+                                    </ul>
+                                @endforeach
+                            </ul>
                         @endforeach
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
     </section>

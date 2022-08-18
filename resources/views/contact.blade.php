@@ -37,9 +37,9 @@
 							<span class="lnr lnr-home"></span>
 						</div>
 						<div class="contact-details">
-							<h5>Binghamton, New York</h5>
+							<h5>Douala, Cameroun</h5>
 							<p>
-								4343 Hinkle Deegan Lake Road
+								Logbessou, PK17
 							</p>
 						</div>
 					</div>
@@ -48,8 +48,8 @@
 							<span class="lnr lnr-phone-handset"></span>
 						</div>
 						<div class="contact-details">
-							<h5>00 (958) 9865 562</h5>
-							<p>Mon to Fri 9am to 6 pm</p>
+							<h5>(+237) 697 389 382</h5>
+							<p>Mon to Fri 8am to 6 pm</p>
 						</div>
 					</div>
 					<div class="single-contact-address d-flex flex-row">
@@ -57,13 +57,14 @@
 							<span class="lnr lnr-envelope"></span>
 						</div>
 						<div class="contact-details">
-							<h5>support@colorlib.com</h5>
+							<h5>isabrahim3@gmail.com</h5>
 							<p>Send us your query anytime!</p>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-8">
-					<form class="form-area contact-form text-right" id="myForm" action="mail.php" method="post">
+					<form class="form-area contact-form text-right" id="myForm" action="{{ route('admin.mailbox.store') }}" method="post">
+                        @csrf
 						<div class="row">
 							<div class="col-lg-6 form-group">
 								<input name="name" placeholder="Enter your name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'"

@@ -44,9 +44,10 @@ class LoginController extends Controller
         if (Auth::user()->roles->pluck('name')->contains('admin')) {
             // dd('sdk');
             return '/admin/dashboard';
-        } elseif (Auth::user()->roles->pluck('name')->contains('apprenant')) {
+        }
+        elseif (Auth::user()->roles->pluck('name')->contains('apprenant')) {
             return 'formations';
-        } else {
+        }else{
             return 'index';
         }
     }

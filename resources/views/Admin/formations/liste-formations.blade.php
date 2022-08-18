@@ -5,9 +5,11 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">{{ __('Liste des formations : ') }} {{ $nbreFormations }}</h1>
+            <div class="row mb-2 margin-tb">
+                <div class="col-sm-6 ">
+                    <div class="pull-left">
+                        <h1>{{ __('Liste des formations (') }} {{ $nbre }} {{ __(')')}}</h1>
+                    </div>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -18,45 +20,49 @@
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
-    <section class="content">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Titre</th>
-                                    <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($formations as $formation)
-                                        <tr>
-                                            <th scope="row">{{ $formation->id }}</th>
-                                            <td>{{ $formation->name }}</td>
-                                            <td>
-                                                <a href="{{ route('admin.formations.edit', $formation->id) }}" class="btn btn-primary">Editer</a>
-                                                <a href="{{ route('admin.formations.show', $formation->id) }}" class="btn btn-primary">Detail</a>
-                                                @can('delete')
-                                                    <form action="{{ route('admin.formations.destroy', $formation->id) }}" class="d-inline"method="post">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-warning">Supprimer</button>
-                                                    </form>
-                                                @endcan
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table> <!-- { { route('admin.pages.edit', $formation->id) } } -->
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- <div class="row">
+        <div class="pull-right">
+            <a class="btn btn-success text-light" data-toggle="modal" id="mediumButton" data-target="#mediumModal"
+                data-attr="" title="Create a project"> <i class="fas fa-plus-circle"></i>
+            </a>
         </div>
-    </section>
+    </div> -->
+
+    <table class="table table-bordered table-responsive-lg table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col" width="30%">Titre</th>
+                <th scope="col">Image</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($formations as $formation)
+                <tr>
+                    <th scope="row">{{ ++$i }}</th>
+                    <td>{{ $formation->name }}</td>
+                    <td><img src="{{ Storage::url($formation->Image->path) }}" alt="" width="70px" heigth="50px"></td>
+                    <td>
+                        <a href="{{ route('admin.formations.show', $formation->id) }}" class="btn" title="show">
+                            <i class="fas fa-eye text-success  fa-lg"></i>
+                        </a>
+                        <a href="{{ route('admin.formations.edit', $formation->id) }}" class="btn" title="edit">
+                            <i class="fas fa-edit text-gray-300"></i>
+                        </a>
+                        @can('delete')
+                            <form action="{{ route('admin.formations.destroy', $formation->id) }}" class="d-inline"method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn" title="delete">
+                                    <i class="fas fa-trash fa-lg text-danger"></i>
+                                </button>
+                            </form>
+                        @endcan
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table> <!-- { { route('admin.pages.edit', $formation->id) } } -->
 </div>
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Image;
 use App\Models\Formation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,10 +21,12 @@ class FormationController extends Controller
     public function index()
     {
         $formations = Formation::all();
-        $nbreFormations = Formation::all()->count();
+        $nbre = Formation::all()->count();
+        $i = 0;
         return view ('admin.formations.liste-formations',[
             'formations' => $formations,
-            'nbreFormations' => $nbreFormations
+            'nbre' => $nbre,
+            'i' => $i
         ]);
     }
 
@@ -49,9 +52,25 @@ class FormationController extends Controller
             'name' => ['required', 'string', 'max:255']
         ]);
 
-        Formation::create([
+        $extension = $request->picture->extension();
+
+        $fileName = $request->name.'.'.$extension;
+
+        $path = $request->file('picture')->storeAs(
+            'imgs',
+            $fileName,
+            'public'
+        );
+
+        $formation = Formation::create([
             'name' => $request->name
         ]);
+
+        $image = new Image();
+        $image->path = $path;
+
+        $formation->image()->save($image);
+        // php artisan storage:link
 
         return redirect()->route('admin.formations.index');
     }
@@ -96,7 +115,21 @@ class FormationController extends Controller
     {
         $formation = Formation::find($id);
         $formation->name = $request->name;
-        $formation->save();
+
+        $extension = $request->picture->extension();
+
+        $fileName = $request->name.'.'.$extension;
+
+        $path = $request->file('picture')->storeAs(
+            'imgs',
+            $fileName,
+            'public'
+        );
+
+        $image = new Image();
+        $image->path = $path;
+
+        $formation->image()->save($image);
 
         return redirect()->route('admin.formations.index');
     }

@@ -25,7 +25,7 @@
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('admin.formations.update', $formation) }} " method="POST">
+                            <form action="{{ route('admin.formations.update', $formation) }} " method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PATCH')
 
@@ -41,6 +41,14 @@
                                             </span>
                                         @enderror
                                     </div>
+
+                                    <label class="col-md-4 col-form-label" for="picture">Choisir une image</label>
+                                    <input type="file" class="form-control @error('picture') is-invalid @enderror" name="picture" required id="picture" value="{{ old('picture') ?? $formation->image->path}}" />
+                                    @error('picture')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
                                 <button type="submit" class="btn btn-primary">Modifier</button>
                             </form>

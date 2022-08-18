@@ -19,9 +19,11 @@ class ChapitreController extends Controller
     {
         $chapitres = Chapitre::all();
         $nbre = Chapitre::all()->count();
+        $i = 0;
         return view('admin.chapitres.liste-chapitres',[
             'chapitres' => $chapitres,
-            'nbre' => $nbre
+            'nbre' => $nbre,
+            'i' => $i
         ]);
     }
 

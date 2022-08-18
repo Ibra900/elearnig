@@ -25,82 +25,76 @@
   <!-- ================ End banner Area ================= -->
 
   <!-- ================ Start Feature Area ================= -->
-  <section class="feature-area">
+<section class="feature-area">
     <div class="container-fluid">
-      <div class="feature-inner row">
-        <div class="col-lg-2 col-md-6">
-          <div class="feature-item d-flex">
-            <i class="ti-book"></i>
-            <div class="ml-20">
-              <h4>New Classes</h4>
-              <p>
-                In the history of modern astronomy, there is probably no one greater leap forward.
-              </p>
+        <div class="feature-inner row">
+            <div class="col-lg-2 col-md-6">
+                <div class="feature-item d-flex">
+                    <i class="ti-book"></i>
+                    <div class="ml-20">
+                        <h4>New Classes</h4>
+                        <p>
+                            In the history of modern astronomy, there is probably no one greater leap forward.
+                        </p>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="col-lg-2 col-md-6">
-          <div class="feature-item d-flex">
-            <i class="ti-cup"></i>
-            <div class="ml-20">
-              <h4>Top Courses</h4>
-              <p>
-                In the history of modern astronomy, there is probably no one greater leap forward.
-              </p>
+            <div class="col-lg-2 col-md-6">
+                <div class="feature-item d-flex">
+                    <i class="ti-cup"></i>
+                    <div class="ml-20">
+                        <h4>Top Courses</h4>
+                        <p>
+                            In the history of modern astronomy, there is probably no one greater leap forward.
+                        </p>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="col-lg-2 col-md-6">
-          <div class="feature-item d-flex border-right-0">
-            <i class="ti-desktop"></i>
-            <div class="ml-20">
-              <h4>Full E-Books</h4>
-              <p>
-                In the history of modern astronomy, there is probably no one greater leap forward.
-              </p>
+            <div class="col-lg-2 col-md-6">
+                <div class="feature-item d-flex border-right-0">
+                    <i class="ti-desktop"></i>
+                    <div class="ml-20">
+                        <h4>Full E-Books</h4>
+                        <p>
+                            In the history of modern astronomy, there is probably no one greater leap forward.
+                        </p>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </section>
+</section>
   <!-- ================ End Feature Area ================= -->
 
   <!-- ================ Start Popular Course Area ================= -->
   <section class="popular-course-area section-gap">
     <div class="container-fluid">
-      <div class="row justify-content-center section-title">
-        <div class="col-lg-12">
-          <h2>
-            Popular Courses <br />
-            Available Right Now
-          </h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </p>
+        <div class="row justify-content-center section-title">
+            <div class="col-lg-12">
+                <h2>
+                    Nos formation
+                </h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                    eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </p>
+            </div>
         </div>
-      </div>
-    <div class="owl-carousel popuar-course-carusel">
+        <div class="owl-carousel popuar-course-carusel">
         @foreach($formations as $formation)
         <div class="single-popular-course">
             <div class="thumb">
-                <img class="f-img img-fluid mx-auto" src="img/popular-course/p1.jpg" alt="" />
+                <img class="f-img img-fluid mx-auto" src="{{ $formation->image ? Storage::url($formation->image->path): '#' }}" width="200" heigth="300" alt="" />
             </div>
             <div class="details">
                 <div class="d-flex justify-content-between mb-20">
 
-                    <p class="name">{{ $formation->name}}</p>
-                    <p class="value">$150</p>
+                    <p class="name">{{ $formation->name }} </p>
+                    <p class="value">{{ $formation->prix }}</p>
                 </div>
 
 
-                    <a href="{{ route('formations')}}"><h4>{{ $formation->name}}</h4></a>
-
-                <div class="bottom d-flex mt-15">
-                    <ul class="list">
-                        <li><a href="#"><i class="fa fa-star"></i></a></li>
-                </div>
+                    <a href="{{ route('formations.show', $formation->id) }}"><h4>{{ $formation->name }} <i class="fa fa-star"></i></h4></a>
             </div>
         </div>
         @endforeach

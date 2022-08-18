@@ -13,10 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('formations', function (Blueprint $table) {
+        Schema::create('boxmails', function (Blueprint $table) {
             $table->id();
-            $table->string('name',120);
-            $table->string('prix',120);
+            $table->string('name');
+            $table->string('email');
+            $table->string('subject');
+            $table->boolean('read')->default(0);
+            $table->boolean('sent')->default(0);
+            $table->mediumText('message');
             $table->timestamps();
         });
     }
@@ -28,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('formations');
+        Schema::dropIfExists('mailbox');
     }
 };

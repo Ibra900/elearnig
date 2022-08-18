@@ -23,12 +23,10 @@ class DashboardController extends Controller
         $users = User::all();
         $nbreUsers = User::all()->count();
         $nbreFormations = Formation::all()->count();
+        // $mail = Boxmail::where('read', '0')->count();
+        // $total = $mail + 5;
 
-        return view('admin.dashboard',[
-            'nbreUsers' => $nbreUsers,
-            'users' => $users,
-            'nbreFormations' => $nbreFormations
-        ]);
+        return view('admin.dashboard',compact('nbreUsers', 'users', 'nbreFormations'));
     }
 
     /**

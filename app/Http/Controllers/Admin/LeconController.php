@@ -19,9 +19,11 @@ class LeconController extends Controller
     {
         $lecons = Lecon::all();
         $nbre = Lecon::all()->count();
+        $i = 0;
         return view('admin.lecons.liste-lecons',[
             'lecons' => $lecons,
-            'nbre' => $nbre
+            'nbre' => $nbre,
+            'i' => $i
         ]);
     }
 

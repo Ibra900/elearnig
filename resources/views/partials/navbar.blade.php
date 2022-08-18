@@ -1,8 +1,8 @@
 <header class="default-header">
     <nav class="navbar navbar-expand-lg  navbar-light">
       <div class="container">
-        <a class="navbar-brand" href="index.html">
-          <img src="img/logo.png" alt="" />
+        <a class="navbar-brand" style="color:white" href="{{ route('index') }}">
+          E_learning
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,43 +13,29 @@
           <ul class="navbar-nav">
             <li><a href="{{ route('index') }}">Home</a></li>
             <li><a href="{{ route('about') }}">About</a></li>
-            <li><a href="{{ route('courses') }}">Courses</a></li>
-            <!-- Dropdown -->
-            <li class="dropdown">
-              <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                Pages
-              </a>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="{{ route('elements') }}">Elements</a>
-                <a class="dropdown-item" href="{{ route('course-details') }}">Course Details</a>
-              </div>
-            </li>
-            <li class="dropdown">
-              <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                Blog
-              </a>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="{{ route('blog-home') }}">Blog Home</a>
-                <a class="dropdown-item" href="{{ route('blog-single') }}">Blog Details</a>
-              </div>
-            </li>
+            <li><a href="{{ route('formations') }}">Nos Formations</a></li>
+
             <li><a href="{{ route('contact') }}">Contacts</a></li>
 
             @guest
                 @if (Route::has('login'))
                     <li><a href="{{ route('login') }}">{{ __('Login') }}</a></li>
                 @endif
-
-                @if (Route::has('register'))
-                    <li ><a  href="{{ route('register') }}">{{ __('Register') }}</a></li>
-                @endif
             @else
+                @if(Auth::user()->roles->pluck('name')->contains('admin'))
+                    <li>
+                        <a href="{{ url('admin/dashboard') }}">{{ __('Dashboard') }}</a>
+                    </li>
+                @endif
                 <li class="dropdown">
                     <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{ Auth::user()->name }}
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        @if(Auth::user()->roles->pluck('name')->contains('apprenant'))
+                            <a class="dropdown-item" href="{{ route('profil') }}">{{ __('Profil') }}</a>
+                        @endif
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
@@ -62,6 +48,7 @@
                     </div>
                 </li>
             @endguest
+
 
             <li>
               <button class="search">

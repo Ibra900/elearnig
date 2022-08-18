@@ -19,9 +19,11 @@ class ModuleController extends Controller
     {
         $modules = Module::all();
         $nbre = Module::all()->count();
+        $i = 0;
         return view('admin.modules.liste-modules',[
             'modules' => $modules,
-            'nbre' => $nbre
+            'nbre' => $nbre,
+            'i' => $i
         ]);
     }
 

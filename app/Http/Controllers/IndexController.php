@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Module;
+use App\Models\User;
 use App\Models\Formation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class IndexController extends Controller
@@ -16,74 +17,48 @@ class IndexController extends Controller
      */
     public function index()
     {
-        $formations = Formation::all();
-        //dd($modules);
+        $formations = Formation::limit(4)->get();
         return view('index',['formations' => $formations]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function formations ()
     {
-        //
+        $formations = Formation::all();
+        return view('formations',[
+            'formations' => $formations
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function afficheFormation($id)
     {
-        //
+        $formation = Formation::findOrfail($id);
+        return view('details-formation',[
+             'formation' => $formation
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function lectureFormation($id)
     {
-        //
+        if( Gate::denies('learn')){
+            return redirect()->route('login');
+        }
+
+        $formation = Formation::findOrfail($id);
+        return view('lecture-formation',[
+             'formation' => $formation
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function profil()
     {
-        //
+        $id = Auth::user()->id ;
+        // dd($id);
+        $user = User::find($id);
+        return view('profil', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function editProfil($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\MailboxController;
 use App\Http\Controllers\Admin\DashboardController;
 
 
@@ -22,14 +23,14 @@ use App\Http\Controllers\Admin\DashboardController;
 */
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
+Route::get('formations', [IndexController::class, 'formations'])->name('formations');
+Route::get('formations/details-formation/{id}', [IndexController::class, 'afficheFormation'])->name('formations.show');
+Route::get('formations/lecture-formation/{id}', [IndexController::class, 'lectureFormation'])->name('formations.lecture');
 
 Route::get('about', function () { return view('about'); })->name('about');
 Route::get('contact', function () { return view('contact'); })->name('contact');
 
-Route::get('formations', [FormationController::class, 'index'])->name('formations');
-Route::get('formations/details-formations/{id}', [FormationController::class, 'show'])->name('formations.show');
-Route::get('formations/module/{id}', [ModuleController::class, 'show'])->name('module');
-
+Route::get('profil', [IndexController::class, 'profil'])->name('profil');
 
 Auth::routes();
 
@@ -48,7 +49,21 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
 Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('lecons', 'LeconController');
 });
+Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('mailbox', 'MailboxController');
+});
 
+Route::get('admin/mailbox/compose', [MailboxController::class, 'compose'])->name('admin.mailbox.compose');
+
+Route::get('admin/reply_mail/{id}', [MailboxController::class, 'replyMail'])->name('admin.mailbox.replyMail');
+
+Route::post('admin/reply_mail', [MailboxController::class, 'replyStore'])->name('admin.mailbox.replyStore');
+
+Route::get('admin/trash', [MailboxController::class, 'trash'])->name('admin.mailbox.trash');
+
+Route::get('admin/trash/show/{id}', [MailboxController::class, 'showTrash'])->name('admin.mailbox.showTrash');
+
+Route::delete('admin/trash/delete/{id}', [MailboxController::class, 'force_delete'])->name('admin.mailbox.force_delete');
 
 Route::get('/admin/dashboard', function () {
         $nbreUsers = User::all()->count();
