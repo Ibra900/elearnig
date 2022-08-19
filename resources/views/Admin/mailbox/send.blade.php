@@ -14,7 +14,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Trash</li>
+                        <li class="breadcrumb-item active">Send</li>
                     </ol>
                 </div>
             </div>
@@ -25,7 +25,7 @@
     <section class="content">
         <div class="row">
             <div class="col-md-3">
-                <a href="{{ route('admin.mailbox.index') }}" class="btn btn-primary btn-block mb-3">Back to Inbox</a>
+                <a href="{{ route('admin.mailbox.compose') }}" class="btn btn-primary btn-block mb-3">Compose</a>
 
                 <div class="card">
                     <div class="card-header">
@@ -109,10 +109,11 @@
                 <!-- /.card -->
             </div>
             <!-- /.col -->
+
             <div class="col-md-9">
                 <div class="card card-primary card-outline">
                     <div class="card-header">
-                        <h3 class="card-title">Trash</h3>
+                        <h3 class="card-title">Inbox</h3>
 
                         <div class="card-tools">
                             <div class="input-group input-group-sm">
@@ -165,38 +166,52 @@
                         <div class="table-responsive mailbox-messages">
                             <table class="table table-hover table-striped">
                                 <tbody>
-                                    @foreach($mails as $mail)
+                                    @foreach($mailboxs as $mailbox)
                                         <tr>
+                                            <!-- <td>
+                                                <div class="icheck-primary">
+                                                    <input type="checkbox" value="" id="check{{$mailbox->id}}">
+                                                    <label for="check{{$mailbox->id}}"></label>
+                                                </div>
+                                            </td> -->
                                             <td>
-                                                <button type="button" class="btn btn-sm" title="delete" onclick="event.preventDefault(); document.getElementById('mail-{{ $mail->id}}').submit();">
+                                                <button type="button" class="btn btn-sm" title="delete" onclick="event.preventDefault(); document.getElementById('mail-{{ $mailbox->id}}d').submit();">
                                                     <i class="far fa-trash-alt"></i>
                                                 </button>
-                                                <form id="mail-{{$mail->id}}" action="{{ route('admin.mailbox.force_delete', $mail->id) }}"                 class="d-inline"method="post">
+                                                <!-- <form id="mail-{{$mailbox->id}}d" action="{{ route('admin.mailbox.destroy', $mailbox->id) }}"                 class="d-inline"method="post">
                                                     @csrf
                                                     @method('DELETE')
+                                                </form> -->
+                                            </td>
+                                            <td class="mailbox-star">
+                                                <a href="#"><i class="fas fa-star-o text-warning"></i></a>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <a href="{{ route('admin.mailbox.update', $mailbox->id)}}" onclick="event.preventDefault();
+                                                                    document.getElementById('mail-{{ $mailbox->id}}').submit();"">To:
+                                                                    {{ $mailbox->receiver }}
+                                                </a>
+                                                <form id="mail-{{$mailbox->id}}" action="{{ route('admin.mailbox.update', $mailbox->id) }}"                 class="d-inline"method="post">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <input type="hidden" value="1" name="read">
                                                 </form>
                                             </td>
-
-                                            <td class="mailbox-name">
-                                                <a href="#">
-                                                    {{ $mail->sender }}
-                                                </a>
-                                            </td>
-                                            @if($mail->read == 0 )
+                                            @if($mailbox->read == 0 )
                                                 <td class="mailbox-subject">
-                                                    <b> {{ $mail->subject }}</b>- {{ substr($mail->message, 0, 45).'..' }}
+                                                    <b> {{ $mailbox->subject }}</b>- {{ substr($mailbox->message, 0, 45).'..' }}
                                                 </td>
                                                 <td class="mailbox-attachment"></td>
                                                 <td class="mailbox-date">
-                                                    <b> {{ $mail->created_at }}</b>
+                                                    <b> {{ $mailbox->created_at }}</b>
                                                 </td>
                                             @else
                                                 <td class="mailbox-subject">
-                                                    {{ $mail->subject }} - {{ substr($mail->message, 0, 45).'..' }}
+                                                    {{ $mailbox->subject }} - {{ substr($mailbox->message, 0, 45).'..' }}
                                                 </td>
                                                 <td class="mailbox-attachment"></td>
                                                 <td class="mailbox-date">
-                                                    {{ $mail->created_at }}
+                                                    {{ $mailbox->created_at }}
                                                 </td>
                                             @endif
                                         </tr>
@@ -208,18 +223,16 @@
                         <!-- /.mail-box-messages -->
                     </div>
                     <!-- /.card-body -->
-                    <!-- <div class="card-footer p-0"> -->
-                        <!-- <div class="mailbox-controls"> -->
+                    <!-- <div class="card-footer p-0">
+                        <div class="mailbox-controls"> -->
                             <!-- Check all button -->
                             <!-- <button type="button" class="btn btn-default btn-sm checkbox-toggle">
                                 <i class="far fa-square"></i>
                             </button>
                             <div class="btn-group">
-
                                 <button type="button" class="btn btn-default btn-sm">
                                     <i class="far fa-trash-alt"></i>
                                 </button>
-
                                 <button type="button" class="btn btn-default btn-sm">
                                     <i class="fas fa-reply"></i>
                                 </button>
@@ -237,9 +250,9 @@
                                     <button type="button" class="btn btn-default btn-sm">
                                         <i class="fas fa-chevron-left"></i>
                                     </button>
-                                <button type="button" class="btn btn-default btn-sm">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
+                                    <button type="button" class="btn btn-default btn-sm">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
                                 </div> -->
                                 <!-- /.btn-group -->
                             <!-- </div> -->
@@ -289,13 +302,5 @@
 
         })
 
-        // $('.mailbox-delete').click(function () {
-        //     var $id = document.getElementById('id').value;
-            // $('form').get(0).setAttribute('action', 'jh');
-        // })
-
-            // var formulaire = document.getElementById('form_msgs');
-
-            // formulaire.setAttribute("action", "http://site.fr/messages.php?id_member="+_userdata['user_id']);
     })
 </script>

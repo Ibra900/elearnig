@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EmailMarkdown extends Mailable
+class MailMarkdown extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -17,9 +17,9 @@ class EmailMarkdown extends Mailable
      *
      * @return void
      */
-    public function __construct(Array $ma)
+    public function __construct(Array $mailbox)
     {
-        $this->data = $ma;
+        $this->data = $mailbox;
     }
 
     /**
@@ -29,7 +29,8 @@ class EmailMarkdown extends Mailable
      */
     public function build()
     {
-        return $this->subject($this->data['subject'])
-                    ->markdown('Admin.mailbox.mail-markdown');
+        return $this->from($this->data['senderEmail'])
+                    ->subject('Nouveau message')
+                    ->markdown('Admin.mailbox.receptMail-markdown');
     }
 }

@@ -19,8 +19,10 @@ class BoxmailFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->safeEmail(),
+            'sender' => fake()->name(),
+            'receiver' => 'E_learning',
+            'senderEmail' => fake()->safeEmail(),
+            'receiverEmail' => "e_learning@example.com",
             'subject' => fake()->sentence(),
             'message' => fake()->sentence(),
         ];

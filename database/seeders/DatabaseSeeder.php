@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Boxmail;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +21,8 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         Boxmail::truncate();
-        \App\Models\Boxmail::factory(10)->create();
+
+        Boxmail::factory(10)->create();
 
         // \App\Models\User::factory()->create([
             //     'name' => 'Test User',
@@ -58,7 +60,7 @@ class DatabaseSeeder extends Seeder
             ModuleSeeder::class,
             ChapitreSeeder::class,
             LeconSeeder::class,
-            // ImageSeeder::class
+            ImageSeeder::class
         ]);
     }
 }

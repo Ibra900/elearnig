@@ -13,7 +13,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Compose</li>
+                        <li class="breadcrumb-item active">Read mail</li>
                     </ol>
                 </div>
             </div>
@@ -42,17 +42,17 @@
                                 <li class="nav-item active">
                                     <a href="{{ route('admin.mailbox.index') }}" class="nav-link">
                                         <i class="fas fa-inbox"></i> Inbox
-                                        @if($nbre != 0)
-                                            <span class="badge bg-primary float-right">{{ $nbre }}</span>
+                                        @if($new != 0)
+                                            <span class="badge bg-primary float-right">{{ $new }}</span>
                                         @endif
                                     </a>
                                 </li>
-                                <!-- <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-envelope"></i> Sent
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.mailbox.send') }}" class="nav-link">
+                                        <i class="far fa-envelope"></i> Send
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="far fa-file-alt"></i> Drafts
                                     </a>
@@ -116,8 +116,11 @@
                         <div class="card-body p-0">
                             <div class="mailbox-read-info">
                                 <h5>Subject : <strong>{{ $mailbox->subject }}</strong></h5>
-                                <h6>From: {{ $mailbox->email }}
-                                <span class="mailbox-read-time float-right"> {{ $mailbox->created_at->format('j F, Y h:i:s A') }}</span></h6>
+                                <h6>
+                                    From: {{ $mailbox->senderEmail }} <br>
+                                    <span class="mailbox-read-time float-right"> {{ $mailbox->created_at->format('j F, Y h:i:s A') }}</span>
+                                    To: {{ $mailbox->receiverEmail }}
+                                <h6>
                             </div>
                             <!-- /.mailbox-read-info -->
                             <!-- <div class="mailbox-controls with-border text-center"> -->

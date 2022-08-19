@@ -42,17 +42,17 @@
                             <li class="nav-item active">
                                 <a href="{{ route('admin.mailbox.index') }}" class="nav-link">
                                     <i class="fas fa-inbox"></i> Inbox
-                                    @if($nbre != 0)
-                                        <span class="badge bg-primary float-right">{{ $nbre }}</span>
+                                    @if($new != 0)
+                                        <span class="badge bg-primary float-right">{{ $new }}</span>
                                     @endif
                                 </a>
                             </li>
-                            <!-- <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-envelope"></i> Sent
+                            <li class="nav-item">
+                                <a href="{{ route('admin.mailbox.send') }}" class="nav-link">
+                                    <i class="far fa-envelope"></i> Send
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="far fa-file-alt"></i> Drafts
                                 </a>
@@ -168,19 +168,28 @@
                                 <tbody>
                                     @foreach($mailboxs as $mailbox)
                                         <tr>
-                                            <td>
+                                            <!-- <td>
                                                 <div class="icheck-primary">
                                                     <input type="checkbox" value="" id="check{{$mailbox->id}}">
                                                     <label for="check{{$mailbox->id}}"></label>
                                                 </div>
+                                            </td> -->
+                                            <td>
+                                                <button type="button" class="btn btn-sm" title="delete" onclick="event.preventDefault(); document.getElementById('mail-{{ $mailbox->id}}d').submit();">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </button>
+                                                <form id="mail-{{$mailbox->id}}d" action="{{ route('admin.mailbox.destroy', $mailbox->id) }}"                 class="d-inline"method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
                                             </td>
-                                            <td class="mailbox-star">
+                                            <!-- <td class="mailbox-star">
                                                 <a href="#"><i class="fas fa-star-o text-warning"></i></a>
-                                            </td>
+                                            </td> -->
                                             <td class="mailbox-name">
                                                 <a href="{{ route('admin.mailbox.update', $mailbox->id)}}" onclick="event.preventDefault();
                                                                     document.getElementById('mail-{{ $mailbox->id}}').submit();"">
-                                                                    {{ $mailbox->name }}
+                                                                    {{ $mailbox->sender }}
                                                 </a>
                                                 <form id="mail-{{$mailbox->id}}" action="{{ route('admin.mailbox.update', $mailbox->id) }}"                 class="d-inline"method="post">
                                                     @csrf

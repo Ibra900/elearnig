@@ -76,6 +76,7 @@
 
 								<input name="subject" placeholder="Enter subject" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter subject'"
 								 class="common-input mb-20 form-control" required="" type="text">
+                                <input type="hidden" name="role" value="user">
 							</div>
 							<div class="col-lg-6 form-group">
 								<textarea class="common-textarea form-control" name="message" placeholder="Enter Messege" onfocus="this.placeholder = ''"

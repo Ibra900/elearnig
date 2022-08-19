@@ -19,27 +19,21 @@ class ImageSeeder extends Seeder
 
 
         Image::create([
-            'path' => 'webmaster',
             'formation_id' => '1'
         ]);
         Image::create([
-            'path' => '',
             'formation_id' => '2'
         ]);
         Image::create([
-            'path' => '',
             'formation_id' => '3'
         ]);
         Image::create([
-            'path' => '',
             'formation_id' => '4'
         ]);
         Image::create([
-            'path' => '',
             'formation_id' => '5'
         ]);
         Image::create([
-            'path' => '',
             'formation_id' => '6'
         ]);
     }

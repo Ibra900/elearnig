@@ -15,13 +15,17 @@ return new class extends Migration
     {
         Schema::create('boxmails', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email');
+            $table->string('sender');
+            $table->string('receiver');
+            $table->string('senderEmail');
+            $table->string('receiverEmail');
             $table->string('subject');
-            $table->boolean('read')->default(0);
-            $table->boolean('sent')->default(0);
             $table->mediumText('message');
+            $table->boolean('read')->default(0);
+            $table->boolean('send')->default(0);
+            $table->string('admin_id')->nullable();
             $table->timestamps();
+            $table -> softDeletes();
         });
     }
 
@@ -32,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mailbox');
+        Schema::dropIfExists('boxmails');
     }
 };

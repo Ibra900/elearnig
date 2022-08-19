@@ -14,7 +14,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Compose</li>
+                        <li class="breadcrumb-item active">Reply mail</li>
                     </ol>
                 </div>
             </div>
@@ -39,13 +39,16 @@
                         <div class="card-body p-0">
                             <ul class="nav nav-pills flex-column">
                                 <li class="nav-item active">
-                                    <a href="#" class="nav-link"><i class="fas fa-inbox"></i> Inbox
-                                        <span class="badge bg-primary float-right">12</span>
+                                    <a href="{{ route('admin.mailbox.index') }}" class="nav-link">
+                                        <i class="fas fa-inbox"></i> Inbox
+                                        @if($new != 0)
+                                            <span class="badge bg-primary float-right">{{ $new }}</span>
+                                        @endif
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-envelope"></i> Sent
+                                    <a href="{{ route('admin.mailbox.send') }}" class="nav-link">
+                                        <i class="far fa-envelope"></i> Send
                                     </a>
                                 </li>
                                 <!-- <li class="nav-item">
@@ -103,32 +106,36 @@
                             <h3 class="card-title">Reply Message</h3>
                         </div>
                         <!-- /.card-header -->
-                        <form action="{{ route('admin.mailbox.replyStore') }}" method="post">
-                            @csrf
+                        <form id="mail-{{$mailbox->id}}" action="{{ route('admin.mailbox.store')}}"                 class="d-inline"method="post">
+                        @csrf
                             <div class="card-body">
                                 <div class="form-group">
-                                    <input type="email" class="form-control" required name="email" value="{{ $mailbox->email }}">
-                                    <input type="hidden" name="user" value="{{ $mailbox->name }}">
-
+                                    <label for="email" class="col-sm-2 col-form-label">To :</label>
+                                    <input type="email" id="email" class="form-control" required name="email" value="{{ $mailbox->senderEmail }}">
+                                    <input type="hidden" name="name" value="{{ $mailbox->sender }}">
+                                    <input type="hidden" name="role" value="admin">
                                 </div>
                                 <div class="form-group">
-                                    <input type ="text" name="subject" required class="form-control" placeholder="Subject:">
+                                    <label for="subject" class="col-sm-2 col-form-label">Subject :</label>
+                                    <input type ="text" id="subject" name="subject" required class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <textarea id="compose-textarea" name="message" class="form-control" required style="height: 300px"></textarea>
                                 </div>
-                                <!-- <div class="form-group">
+                                <div class="form-group">
                                     <div class="btn btn-default btn-file">
                                         <i class="fas fa-paperclip"></i> Attachment
                                         <input type="file" name="attachment">
                                     </div>
                                     <p class="help-block">Max. 32MB</p>
-                                </div> -->
+                                </div>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
                                 <div class="float-right">
-                                    <button  class="btn btn-primary"><i class="far fa-envelope"></i> Send</button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="far fa-envelope"> Send</i>
+                                    </button>
                                 </div>
                                 <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button>
                             </div>

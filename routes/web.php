@@ -53,11 +53,11 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
     Route::resource('mailbox', 'MailboxController');
 });
 
-Route::get('admin/mailbox/compose', [MailboxController::class, 'compose'])->name('admin.mailbox.compose');
+Route::get('admin/compose', [MailboxController::class, 'compose'])->name('admin.mailbox.compose');
+
+Route::get('admin/send', [MailboxController::class, 'send'])->name('admin.mailbox.send');
 
 Route::get('admin/reply_mail/{id}', [MailboxController::class, 'replyMail'])->name('admin.mailbox.replyMail');
-
-Route::post('admin/reply_mail', [MailboxController::class, 'replyStore'])->name('admin.mailbox.replyStore');
 
 Route::get('admin/trash', [MailboxController::class, 'trash'])->name('admin.mailbox.trash');
 

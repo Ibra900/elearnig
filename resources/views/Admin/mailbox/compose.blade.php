@@ -38,17 +38,20 @@
                         </div>
                         <div class="card-body p-0">
                             <ul class="nav nav-pills flex-column">
-                                <li class="nav-item active">
-                                    <a href="#" class="nav-link"><i class="fas fa-inbox"></i> Inbox
-                                        <span class="badge bg-primary float-right">12</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-envelope"></i> Sent
-                                    </a>
-                                </li>
-                                <li class="nav-item">
+                            <li class="nav-item active">
+                                <a href="{{ route('admin.mailbox.index') }}" class="nav-link">
+                                    <i class="fas fa-inbox"></i> Inbox
+                                    @if($new != 0)
+                                        <span class="badge bg-primary float-right">{{ $new }}</span>
+                                    @endif
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.mailbox.send') }}" class="nav-link">
+                                    <i class="far fa-envelope"></i> Send
+                                </a>
+                            </li>
+                                <!-- <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="far fa-file-alt"></i> Drafts
                                     </a>
@@ -58,7 +61,7 @@
                                         <i class="fas fa-filter"></i> Junk
                                         <span class="badge bg-warning float-right">65</span>
                                     </a>
-                                </li>
+                                </li> -->
                                 <li class="nav-item">
                                     <a href="{{ route('admin.mailbox.trash') }}" class="nav-link">
                                         <i class="far fa-trash-alt"></i> Trash
@@ -103,33 +106,42 @@
                             <h3 class="card-title">Compose Message</h3>
                         </div>
                         <!-- /.card-header -->
-                        <div class="card-body">
-                            <div class="form-group">
-                                <input class="form-control" placeholder="To:">
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Subject:">
-                            </div>
-                            <div class="form-group">
-                                <textarea id="compose-textarea" class="form-control" style="height: 300px"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <div class="btn btn-default btn-file">
-                                    <i class="fas fa-paperclip"></i> Attachment
-                                    <input type="file" name="attachment">
+
+                        <form action="{{ route('admin.mailbox.store')}}"                 class="d-inline"method="post">
+                        @csrf
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="email" class="col-sm-2 col-form-label">To :</label>
+                                    <input type="email" id="email" class="form-control" required name="email">
+                                    <input type="hidden" name="name" value="sej">
+                                    <input type="hidden" name="role" value="admin">
                                 </div>
-                                <p class="help-block">Max. 32MB</p>
+                                <div class="form-group">
+                                    <label for="subject" class="col-sm-2 col-form-label">Subject :</label>
+                                    <input type ="text" id="subject" name="subject" required class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <textarea id="compose-textarea" name="message" class="form-control" required style="height: 300px"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <div class="btn btn-default btn-file">
+                                        <i class="fas fa-paperclip"></i> Attachment
+                                        <input type="file" name="attachment">
+                                    </div>
+                                    <p class="help-block">Max. 32MB</p>
+                                </div>
                             </div>
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            <div class="float-right">
-                                <button type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Draft</button>
-                                <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Send</button>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <div class="float-right">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="far fa-envelope"> Send</i>
+                                    </button>
+                                </div>
+                                <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button>
                             </div>
-                            <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button>
-                        </div>
-                        <!-- /.card-footer -->
+                            <!-- /.card-footer -->
+                        </form>
                     </div>
                     <!-- /.card -->
                 </div>
