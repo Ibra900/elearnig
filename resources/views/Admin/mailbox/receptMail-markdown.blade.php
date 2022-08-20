@@ -6,7 +6,7 @@ Sujet : <strong>{{ $data['subject'] }}</strong>.
 
 Bien vouloir se connecter pour répondre
 
-@component('mail::button', ['url' => 'elearning.test/login'])
+@component('mail::button', ['url' => 'localhost/elearning.test/login'])
 Se connecter
 @endcomponent
 

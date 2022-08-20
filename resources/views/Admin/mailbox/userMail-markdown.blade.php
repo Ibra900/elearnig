@@ -1,6 +1,6 @@
 @component('mail::message')
 
-Salut, {{ $data['name']}}.
+Salut,
 
 Nous avons reçu votre message qui parle de <strong>{{ $data['subject'] }}</strong>.
 

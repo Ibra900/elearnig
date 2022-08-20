@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Boxmail;
 use App\Models\Role;
+use App\Models\Boxmail;
 use App\Mail\MailMarkdown;
 use App\Mail\AdminMarkdown;
 use App\Mail\ReceptMarkdown;
@@ -25,7 +25,7 @@ class MailboxController extends Controller
      */
     public function index()   //elle presente la liste des mails recu
     {
-        $mailboxs = Boxmail::orderBy('id', 'desc')->get();
+        $mailboxs = Boxmail::where('send', '0')->orderBy('id', 'desc')->get();
         $new = Boxmail::where('read', '0')->count();
 
         return view('admin.mailbox.mailbox', compact('mailboxs', 'new'));
@@ -75,7 +75,6 @@ class MailboxController extends Controller
 
         if($request->role =="admin")
         {
-            // dd('admin');
             $mailbox = [
                 'sender'        => 'E_learning',
                 'senderEmail'   => 'e_learning@example.com',
@@ -85,7 +84,7 @@ class MailboxController extends Controller
                 'message'       => $request->message,
             ];
 
-            // Mail::to($mailbox['receiverEmail'])->send(new AdminMarkdown($mailbox));
+            Mail::to($mailbox['receiverEmail'])->send(new AdminMarkdown($mailbox));
 
             Boxmail::create([
                 'sender'        => $mailbox['sender'],
@@ -111,9 +110,10 @@ class MailboxController extends Controller
                 'subject' => $request->subject,
                 'message' => $request->message,
             ];
-            // Mail::to($mailbox['receiverEmail'])->send(new ReceptMarkdown($mailbox));
 
-            // Mail::to($mailbox['senderEmail'])->send(new MailMarkdown($mailbox));
+            Mail::to($mailbox['receiverEmail'])->send(new ReceptMarkdown($mailbox));
+
+            Mail::to($mailbox['senderEmail'])->send(new MailMarkdown($mailbox));
 
             Boxmail::create([
                 'sender'        => $mailbox['sender'],
