@@ -7,7 +7,6 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">{{ __('DETAIL MODULE : ') }}</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -20,19 +19,24 @@
         </div><!-- /.container-fluid -->
     </div>
     <section class="content">
-        <h2 class="m-0"> Titre : {{ $module->name }}</h2><hr>
-        <div class="container">
-            <div>
-                @foreach($module->chapitres as $chapitre)
-                    <div>
-                        <h4> Chapitre : {{ $chapitre->name}}</h4>
-                            @foreach($chapitre->lecons as $lecon)
-                                <div>
-                                    <h5>Leçon {{ $lecon->name}}</h5>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
+        <div class="card mb-3">
+            <div class="card-body">
+                <h1 class="card-title">
+                    {{ __('MODULE : ') }} <b>{{ $data[0]->module}}</b>
+                </h1><br>
+                    <em>
+                        {{ __('Formation : ') }}
+                        <a href="{{ route('admin.formations.show', $data[0]->idform) }}">
+                            {{ $data[0]->formation }}
+                        </a>
+                    </em>
+                <hr>
+
+                @foreach($data as $rw)
+                    <p class="card-text">{{ __('Chapitre  : ')  }} <b>{{ $rw->chapitre}}</b></p>
+                        <ul>
+                            <li>{{ __('Leçon: ')  }} <b>{{ $rw->lecon }}</b></li>
+                        </ul>
                 @endforeach
             </div>
         </div>

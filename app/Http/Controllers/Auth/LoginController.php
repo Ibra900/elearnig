@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Admin\UserController;
-use Illuminate\Routing\Redirector;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -38,16 +40,26 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+        // session(['url.intended' => url()->previous()]);
+        // $this->redirectTo = session()->get('url.intended');
+
         $this->middleware('guest')->except('logout');
     }
     protected function redirectTo () {
         if (Auth::user()->roles->pluck('name')->contains('admin')) {
-            // dd('sdk');
             return '/admin/dashboard';
         }
         elseif (Auth::user()->roles->pluck('name')->contains('apprenant')) {
+            // // dd($id);
+            // if(isset($id))
+            // {
+            //     $formation = Formation::findOrfail($id);
+            //     return view('lecture-formation', compact('formation'));
+            // }
             return 'formations';
-        }else{
+            // return Redirect::to(URL::previous());
+        }
+        else{
             return 'index';
         }
     }

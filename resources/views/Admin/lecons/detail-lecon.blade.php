@@ -19,11 +19,21 @@
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
+
     <section class="content">
-        <h2 class="m-0"> Titre : {{ $lecon->name }}</h2><hr>
-        <div class="container">
-            <div>
-                <p>{{ $lecon->content }}</p>
+        <div class="card mb-3">
+            <div class="card-body">
+                <h1 class="card-title">
+                    {{ __('Titre : ') }} <b>{{ $data[0]->name}}</b>
+                </h1><br>
+                    <em>
+                        {{ __('Chapitre : ') }}
+                        <a href="{{ route('admin.chapitres.show', $data[0]->idchapitre) }}">{{ $data[0]->chapitre }}</a>
+                    </em>
+                <hr>
+                <p class="card-text text-justify">
+                    {{ $data[0]->content}}
+                </p>
             </div>
         </div>
     </section>

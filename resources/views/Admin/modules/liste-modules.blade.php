@@ -23,9 +23,8 @@
     <table class="table table-bordered table-responsive-lg table-hover">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">#</th>
-                <th scope="col" width="30%">Titre</th>
-                <th scope="col" width="30%">Formation</th>
+                <th scope="col" width="20%">N°</th>
+                <th scope="col" width="40%">Module</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -33,15 +32,22 @@
             @foreach($modules as $module)
                 <tr>
                     <th scope="row">{{ ++$i}}</th>
-                    <td>{{ $module->name }}</td>
-                    <td>{{ __('#')}}</td>
+                    <td>
+                        {{ $module->name }} <br>
+                        <em>
+                            fomration :
+                            <a href="{{ route('admin.formations.show', $module->idform) }}">  {{ $module->formation }}</a>
+                        </em>
+                    </td>
                     <td>
                         <a href="{{ route('admin.modules.show', $module->id) }}" class="btn" title="show">
-                            <i class="fas fa-edit text-gray-300"></i>
-                        </a>
-                        <a href="{{ route('admin.modules.edit', $module->id) }}" class="btn" title="edit">
                             <i class="fas fa-eye text-success  fa-lg"></i>
                         </a>
+
+                        <a href="{{ route('admin.modules.edit', $module->id) }}" class="btn" title="edit">
+                            <i class="fas fa-edit text-gray-300"></i>
+                        </a>
+
                         @can('delete')
                             <form action="{{ route('admin.modules.destroy', $module->id) }}" class="d-inline"method="post">
                                 @csrf

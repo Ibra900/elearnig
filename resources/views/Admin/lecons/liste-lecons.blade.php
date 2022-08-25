@@ -23,8 +23,8 @@
     <table class="table table-bordered table-responsive-lg table-hover">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">#</th>
-                <th scope="col" width="30%">Titre</th>
+                <th scope="col" width="20%">N°</th>
+                <th scope="col" width="40%">Titre</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -32,14 +32,22 @@
             @foreach($lecons as $lecon)
                 <tr>
                     <th scope="row">{{ ++$i }}</th>
-                    <td>{{ $lecon->name }}</td>
+                    <td>
+                        {{ $lecon->name }} <br>
+                        <em>
+                            chapitre :
+                            <a href="{{ route('admin.chapitres.show', $lecon->idchapitre) }}">{{ $lecon->chapitre}}</a>
+                        </em>
+                    </td>
                     <td>
                         <a href="{{ route('admin.lecons.show', $lecon->id) }}" class="btn" title="show">
-                            <i class="fas fa-edit text-gray-300"></i>
-                        </a>
-                        <a href="{{ route('admin.lecons.edit', $lecon->id) }}" class="btn" title="edit">
                             <i class="fas fa-eye text-success  fa-lg"></i>
                         </a>
+
+                        <a href="{{ route('admin.lecons.edit', $lecon->id) }}" class="btn" title="edit">
+                            <i class="fas fa-edit text-gray-300"></i>
+                        </a>
+
                         @can('delete')
                             <form action="{{ route('admin.lecons.destroy', $lecon->id) }}" class="d-inline"method="post">
                                 @csrf
@@ -55,4 +63,5 @@
         </tbody>
     </table>
 </div>
+{{ $lecons->links() }}
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Module;
 use App\Models\Formation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 
@@ -17,14 +18,15 @@ class ModuleController extends Controller
      */
     public function index()
     {
-        $modules = Module::all();
         $nbre = Module::all()->count();
         $i = 0;
-        return view('admin.modules.liste-modules',[
-            'modules' => $modules,
-            'nbre' => $nbre,
-            'i' => $i
-        ]);
+
+        $modules = DB::table('modules')
+                ->join('formations', 'formations.id', 'modules.formation_id')
+                ->select('modules.*', 'formations.name as formation', 'formations.id as idform')
+                ->get();
+
+        return view('admin.modules.liste-modules', compact('modules', 'nbre', 'i'));
     }
 
     /**
@@ -68,9 +70,17 @@ class ModuleController extends Controller
      */
     public function show(Module $module)
     {
-        return view('admin.modules.detail-module',[
-            'module' => $module
-        ]);
+        $data = DB::table('modules')
+                ->join('formations', 'formations.id', 'modules.formation_id')
+                ->join('chapitres', 'chapitres.module_id', 'modules.id')
+                ->join('lecons', 'lecons.chapitre_id', 'chapitres.id')
+                ->select('modules.name as module', 'formations.name as formation', 'chapitres.name as chapitre', 'lecons.name as lecon', 'formations.id as idform')
+                ->where('modules.id', $module->id)
+                ->get();
+
+        //         dd($det);
+        // dd($det[0]->module);
+        return view('admin.modules.detail-module', compact('data'));
     }
 
     /**

@@ -31,7 +31,7 @@
     <table class="table table-bordered table-responsive-lg table-hover">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">No</th>
+                <th scope="col">N°</th>
                 <th scope="col" width="30%">Titre</th>
                 <th scope="col">Image</th>
                 <th scope="col">Actions</th>

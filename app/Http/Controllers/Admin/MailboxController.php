@@ -31,7 +31,7 @@ class MailboxController extends Controller
         return view('admin.mailbox.mailbox', compact('mailboxs', 'new'));
     }
 
-    public function compose()
+    public function compose() //renvoi la page pour un nouveau mail
     {
         $new = Boxmail::where('read', '0')->count();
         return view('admin.mailbox.compose', compact('new'));
@@ -45,12 +45,7 @@ class MailboxController extends Controller
         return view('admin.mailbox.reply_mail', compact('mailbox', 'new'));
     }
 
-    public function show()
-    {
-        sdckld;
-    }
-
-    public function send()
+    public function send() // retourne la page des mails envoyés par l'admin
     {
         $mailboxs = Boxmail::where('send', '1')->orderBy('id', 'desc')->get();
         $new = Boxmail::where('read', '0')->count();
@@ -64,7 +59,7 @@ class MailboxController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request) //stocke les différents mails en fonction des rôles
     {
         $request->validate([
             'name'      => ['required', 'string', 'max:120'],
@@ -101,7 +96,6 @@ class MailboxController extends Controller
         }
         else
         {
-            // dd('dsmml');
             $mailbox = [
                 'sender' => $request->name,
                 'senderEmail' => $request->email,
@@ -134,7 +128,7 @@ class MailboxController extends Controller
      * @param  \App\Models\Boxmail  $mailbox
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Boxmail $mailbox)
+    public function update(Request $request, Boxmail $mailbox) //modifie la valeur du champ read d'un mails avant de l'afficher
     {
         // dd($mailbox);
         $mailbox->read = $request->read;
@@ -150,14 +144,14 @@ class MailboxController extends Controller
      * @param  \App\Models\Mailbox  $contact
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Boxmail $mailbox)
+    public function destroy(Boxmail $mailbox) //supprime un mail
     {
         $mailbox->delete();
 
         return redirect()->route('admin.mailbox.index');
     }
 
-    public function trash ()
+    public function trash() //retourne la page des mails supprimés
     {
         $new = Boxmail::where('read', '0')->count();
         $mails = Boxmail::onlyTrashed()->orderBy('deleted_at', 'desc')->get();
@@ -165,17 +159,16 @@ class MailboxController extends Controller
         return view('admin.mailbox.trash', compact('mails', 'new'));
     }
 
-    public function showTrash ($id)
+    public function showTrash($id) //affiche un mail qui a été supprimé
     {
         $mailbox = Boxmail::withTrashed()->where('id', $id)->get();
 
-        // dd($mailbox);
         $new = Boxmail::where('read', '0')->count();
 
         return view('admin.mailbox.read-mail', compact('mailbox', 'new'));
     }
 
-    public function force_delete($id)
+    public function force_delete($id) //supprime un mails définitivement
     {
         Boxmail::where('id', $id)->withTrashed()->forceDelete();
 

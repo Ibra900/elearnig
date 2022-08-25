@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Lecon;
 use App\Models\Chapitre;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 
@@ -17,14 +18,15 @@ class LeconController extends Controller
      */
     public function index()
     {
-        $lecons = Lecon::all();
         $nbre = Lecon::all()->count();
         $i = 0;
-        return view('admin.lecons.liste-lecons',[
-            'lecons' => $lecons,
-            'nbre' => $nbre,
-            'i' => $i
-        ]);
+
+        $lecons = DB::table('lecons')
+                ->join('chapitres', 'chapitres.id', 'lecons.chapitre_id')
+                ->select('lecons.*', 'chapitres.name as chapitre', 'chapitres.id as idchapitre')
+                ->paginate(20);
+
+        return view('admin.lecons.liste-lecons',compact('lecons','nbre', 'i'));
     }
 
     /**
@@ -70,9 +72,13 @@ class LeconController extends Controller
      */
     public function show(Lecon $lecon)
     {
-        return view('admin.lecons.detail-lecon',[
-            'lecon' => $lecon
-        ]);
+        $data = DB::table('lecons')
+                ->join('chapitres', 'chapitres.id', 'lecons.chapitre_id')
+                ->select('lecons.*', 'chapitres.name as chapitre', 'chapitres.id as idchapitre')
+                ->where('lecons.id', $lecon->id)
+                ->get();
+                // dd($data);
+        return view('admin.lecons.detail-lecon',compact('data'));
     }
 
     /**

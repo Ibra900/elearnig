@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Module;
 use App\Models\Chapitre;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 
@@ -17,14 +18,14 @@ class ChapitreController extends Controller
      */
     public function index()
     {
-        $chapitres = Chapitre::all();
         $nbre = Chapitre::all()->count();
         $i = 0;
-        return view('admin.chapitres.liste-chapitres',[
-            'chapitres' => $chapitres,
-            'nbre' => $nbre,
-            'i' => $i
-        ]);
+
+        $chapitres = DB::table('chapitres')
+                    ->join('modules', 'modules.id', 'chapitres.module_id')
+                    ->select('chapitres.*', 'modules.name as module', 'modules.id as idmodule')
+                    ->get();
+        return view('admin.chapitres.liste-chapitres',compact('chapitres','nbre', 'i'));
     }
 
     /**
@@ -68,9 +69,14 @@ class ChapitreController extends Controller
      */
     public function show(Chapitre $chapitre)
     {
-        return view('admin.chapitres.detail-chapitre',[
-            'chapitre' => $chapitre
-        ]);
+        $data = DB::table('chapitres')
+                    ->join('modules', 'modules.id', 'chapitres.module_id')
+                    ->join('lecons', 'lecons.chapitre_id', 'chapitres.id')
+                    ->select('chapitres.name as chapitre', 'modules.name as module', 'lecons.name as lecon', 'modules.id as idmodule')
+                    ->where('chapitres.id', $chapitre->id)
+                    ->get();
+        $i = 0;
+        return view('admin.chapitres.detail-chapitre',compact('data', 'i'));
     }
 
     /**

@@ -20,14 +20,21 @@
         </div><!-- /.container-fluid -->
     </div>
     <section class="content">
-        <h2 class="m-0"> Titre : {{ $chapitre->name }}</h2><hr>
-        <div class="container">
-            <div>
-                <div>
-                    @foreach($chapitre->lecons as $lecon)
-                        <h5>Leçon {{ $lecon->name}}</h5>
-                    @endforeach
-                </div>
+        <div class="card mb-3">
+            <div class="card-body">
+                <h1 class="card-title">
+                    {{ __('CHAPITRE : ') }} <b>{{ $data[0]->chapitre}}</b>
+                </h1><br>
+                    <em>
+                        {{ __('Module : ') }}
+                        <a href="{{ route('admin.modules.show', $data[0]->idmodule) }}">{{ $data[0]->module}}</a>
+                    </em>
+                <hr>
+                @foreach($data as $row)
+                    <ul>
+                        <li class="card-text">{{ __('Leçon ') }} {{ ++$i }} {{ __(' : ')}}<b>{{ $row->lecon }}</b></li>
+                    </ul>
+                @endforeach
             </div>
         </div>
     </section>

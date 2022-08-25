@@ -40,7 +40,7 @@ class IndexController extends Controller
     public function lectureFormation($id)
     {
         if( Gate::denies('learn')){
-            return redirect()->route('login');
+            return redirect()->route('login', [$id]);
         }
 
         $formation = Formation::findOrfail($id);
@@ -59,6 +59,6 @@ class IndexController extends Controller
 
     public function editProfil($id)
     {
-        
+
     }
 }

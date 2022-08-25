@@ -1,6 +1,9 @@
 <?php
 
 use App\Models\User;
+use App\Models\Lecon;
+use App\Models\Module;
+use App\Models\Chapitre;
 use App\Models\Formation;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
@@ -66,7 +69,10 @@ Route::get('admin/trash/show/{id}', [MailboxController::class, 'showTrash'])->na
 Route::delete('admin/trash/delete/{id}', [MailboxController::class, 'force_delete'])->name('admin.mailbox.force_delete');
 
 Route::get('/admin/dashboard', function () {
-        $nbreUsers = User::all()->count();
-        $nbreFormations = Formation::all()->count();
-    return view ('admin.dashboard', compact('nbreUsers', 'nbreFormations'));
+        $nbreU = User::all()->count();
+        $nbreF = Formation::all()->count();
+        $nbreM = Module::all()->count();
+        $nbreC = Chapitre::all()->count();
+        $nbreL = Lecon::all()->count();
+    return view ('admin.dashboard', compact('nbreU', 'nbreF', 'nbreM', 'nbreC', 'nbreL'));
 });

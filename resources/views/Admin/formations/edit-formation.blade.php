@@ -42,13 +42,22 @@
                                         @enderror
                                     </div>
 
-                                    <label class="col-md-4 col-form-label" for="picture">Choisir une image</label>
-                                    <input type="file" class="form-control @error('picture') is-invalid @enderror" name="picture" required id="picture" value="{{ old('picture') ?? $formation->image->path}}" />
-                                    @error('picture')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+                                    <!-- <div class="form-group">
+                                        <div class="btn btn-default btn-file">
+                                            <i class="fas fa-file"></i> Choisir une image
+                                            <input type="file" class="form-control @error('picture') is-invalid @enderror" name="picture" required id="picture" value="{{ old('picture') ?? $formation->image->path}}" />
+                                        </div>
+                                    </div> -->
+<br>
+                                    <div class="col-md-12">
+                                        <input type="file" class="form @error('picture') is-invalid @enderror" name="picture" required id="picture" value="{{ old('picture') ?? $formation->image->path}}" />
+
+                                        @error('picture')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Modifier</button>
                             </form>

@@ -22,10 +22,12 @@ class UserController extends Controller
     {
         $users = User::all();
         $nbreUsers = User::all()->count();
+        $i = 0;
 
         return view('admin.users.liste-users',[
             'nbreUsers' => $nbreUsers,
-            'users' => $users
+            'users' => $users,
+            'i' => $i
         ]);
     }
 

@@ -19,12 +19,11 @@
         </div><!-- /.container-fluid -->
     </div>
     <section class="content">
-
         <div class="container">
             <div class="card mb-3">
                 <img src="{{ Storage::url($formation->Image->path) }}" width="70px" heigth="50px" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h1 class="card-title"><b>{{ __('FORMATION : ')  }} {{ $formation->name }}</b></h1><br>
+                    <h1 class="card-title"><b>{{ __('FORMATION : ')  }} {{ $formation->name }}</b></h1><br><hr>
                     @foreach($formation->modules as $module)
                         <p class="card-text">{{ __('MODULE : ')  }} <b>{{ $module->name}}</b></p>
                         @foreach($module->chapitres as $chapitre)

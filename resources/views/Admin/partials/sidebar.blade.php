@@ -172,8 +172,8 @@
                     </li>
                 </li>
 
-                <li class="nav-item menu-open">
-                    <a href="#" class="nav-link active">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon far fa-envelope"></i>
                         <p>
                             Mailbox
@@ -193,12 +193,6 @@
                                 <p>Compose</p>
                             </a>
                         </li>
-                        <!-- <li class="nav-item">
-                            <a href="../mailbox/read-mail.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Read</p>
-                            </a>
-                        </li> -->
                     </ul>
                 </li>
             </ul>
